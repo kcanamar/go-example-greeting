@@ -23,9 +23,9 @@ func Hello(name string) (string, error) {
 
 	//! Error handling control flow
 	// if no name is given, return an error with a message
-	if name == "" {
-		return "", errors.New("empty name")
-	}
+	// if name == "" {
+	// 	return "", errors.New("empty name")
+	// }
 	/* 
 		* the `:=` operator is a shorcut for delcaring and initializing a variable in one line. 
 		* Go uses the value on the right to determine the variable's type
@@ -45,6 +45,31 @@ func Hello(name string) (string, error) {
 
 	//! add nil (meaning no error) as a second value, this allows the caller to know if the function was succesful. 
     return message, nil
+}
+
+// Hellos parameter is a slice of names, returning a map of strings 
+func Hellos(names []string) (map[string]string, error) {
+
+    // A map to associate names with messages.
+	//* initialize maps -> (map[key-type]value-type)
+    messages := make(map[string]string)
+
+    // Loop through the received slice of names, calling
+    // the Hello function to get a message for each name.
+	//* in this for loop, range returns two values: the index of current item in the loop and a copy of the item's value
+	//! use a Go blank `_` identifier to ignore the index.
+    for _, name := range names {
+        message, err := Hello(name)
+
+		//! Relocate the error handler
+        if err != nil {
+            return nil, err
+        }
+        // In the map, associate the retrieved message with
+        // the name.
+        messages[name] = message
+    }
+    return messages, nil
 }
 
 // init sets inital values for variables used in the function
