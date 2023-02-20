@@ -23,9 +23,9 @@ func Hello(name string) (string, error) {
 
 	//! Error handling control flow
 	// if no name is given, return an error with a message
-	// if name == "" {
-	// 	return "", errors.New("empty name")
-	// }
+	if name == "" {
+		return "", errors.New("empty name")
+	}
 	/* 
 		* the `:=` operator is a shorcut for delcaring and initializing a variable in one line. 
 		* Go uses the value on the right to determine the variable's type
@@ -61,7 +61,6 @@ func Hellos(names []string) (map[string]string, error) {
     for _, name := range names {
         message, err := Hello(name)
 
-		//! Relocate the error handler
         if err != nil {
             return nil, err
         }
