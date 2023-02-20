@@ -7,6 +7,11 @@ import (
 
 	"fmt"
 
+	//? math/rand generates a random number
+	"math/rand"
+
+	"time"
+
 )
 
 
@@ -33,8 +38,32 @@ func Hello(name string) (string, error) {
 
     // Return a greeting that embeds the name in a message.
 	// * 1st argument is a fromated string, Sprintf will sub in the name param's value for the %v format verb. 
-    message := fmt.Sprintf("Hi, %v. Welcome!", name)
+    // message := fmt.Sprintf("Hi, %v. Welcome!", name)
+
+	// invoke the randomFormat func
+    message := fmt.Sprintf(randomFormat(), name)
 
 	//! add nil (meaning no error) as a second value, this allows the caller to know if the function was succesful. 
     return message, nil
+}
+
+// init sets inital values for variables used in the function
+// * Go executes init functions automatically at program startup, after gloabl variables have been initialized.
+func init() {
+	// seed random package with current time
+	rand.Seed(time.Now().UnixNano())
+}
+
+// randomFormat returns one of a set of greeting messagees
+// the returned message is selected at random
+func randomFormat() string {
+	// A slice of messages formats
+	formats := []string{
+		"Hi, %v. Welcome!",
+		"Great to see you, %v",
+		"%v, you're a meat popsickle",
+	}
+
+	// Return a randomly selected message format by specifying a random index for the slice of formats
+	return formats[rand.Intn(len(formats))]
 }
